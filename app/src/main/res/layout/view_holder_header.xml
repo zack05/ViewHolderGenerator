@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/list_view_background"
+    android:paddingStart="@dimen/listItemSidePadding"
+    android:paddingEnd="@dimen/listItemSidePadding"
+    android:paddingTop="@dimen/listItemTopBottomPadding"
+    android:paddingBottom="@dimen/listItemTopBottomPadding"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemHeader"
+        android:layout_width="match_parent"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:textStyle="bold"
+        tools:text="This is header"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>

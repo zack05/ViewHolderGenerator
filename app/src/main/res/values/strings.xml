@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TemplateApp</string>
+    <string name="animal_dog">Dog</string>
+    <string name="animal_cat">Cat</string>
+    <string name="vehicle_bus">Bus</string>
+    <string name="vehicle_tram">Tram</string>
+    <string name="iphone">iPhone</string>
+    <string name="android">Android</string>
+</resources>
