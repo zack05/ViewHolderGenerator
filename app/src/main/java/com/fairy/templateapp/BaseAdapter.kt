@@ -7,8 +7,7 @@ import com.fairy.templateapp.viewholders.RecyclerViewUIModel
 
 class BaseAdapter(
     private val itemList: List<Any>,
-    private val bindCallback: (data: Any) -> RecyclerViewUIModel,
-    private val clickListener: (uiModel: RecyclerViewUIModel) -> Unit
+    private val bindCallback: (data: Any) -> RecyclerViewUIModel
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var uiModelList: MutableList<RecyclerViewUIModel?> =

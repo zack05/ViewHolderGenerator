@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 notifyDataSetChanged()
                 return@Observer
             }
-            val adapter = BaseAdapter(data, onBindData(), onUIModelSelected())
+            val adapter = BaseAdapter(data, onBindData())
             mainRecyclerView.adapter = adapter
         })
 
@@ -79,9 +79,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onUIModelSelected(): (uiModel: RecyclerViewUIModel) -> Unit = {
-        startActivity(Intent(this, PasscodeActivity::class.java))
-        println("Item selected")
-    }
 
 }
