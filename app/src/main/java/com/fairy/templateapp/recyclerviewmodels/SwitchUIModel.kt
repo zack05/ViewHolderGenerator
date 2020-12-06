@@ -3,8 +3,8 @@ package com.fairy.templateapp.recyclerviewmodels
 import android.view.View
 import com.fairy.sugar_annotation.SugarViewHolder
 import com.fairy.templateapp.R
+import com.fairy.templateapp.databinding.ViewHolderSwitchBinding
 import com.fairy.templateapp.viewholders.RecyclerViewUIModel
-import kotlinx.android.synthetic.main.view_holder_switch.view.*
 
 @SugarViewHolder(layoutRes = R.layout.view_holder_switch)
 data class SwitchUIModel(
@@ -13,13 +13,17 @@ data class SwitchUIModel(
     var isChecked: Boolean,
     val checkListener: (isChecked: Boolean) -> Unit
 ) : RecyclerViewUIModel {
+
+    private lateinit var viewBinding: ViewHolderSwitchBinding
+
     override fun onBind(itemView: View) {
-        itemView.itemTitle.text = this.title
-        itemView.itemDescription.text = this.description
-        itemView.itemSwitch.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding = ViewHolderSwitchBinding.bind(itemView)
+        viewBinding.itemTitle.text = this.title
+        viewBinding.itemDescription.text = this.description
+        viewBinding.itemSwitch.setOnCheckedChangeListener { _, isChecked ->
             this.isChecked = isChecked
             this.checkListener.invoke(isChecked)
         }
-        itemView.itemSwitch.isChecked = this.isChecked
+        viewBinding.itemSwitch.isChecked = this.isChecked
     }
 }
