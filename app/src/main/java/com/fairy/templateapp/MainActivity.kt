@@ -1,11 +1,11 @@
 package com.fairy.templateapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.fairy.templateapp.databinding.ActivityMainBinding
 import com.fairy.templateapp.models.Animal
 import com.fairy.templateapp.models.Device
 import com.fairy.templateapp.models.Option
@@ -14,7 +14,6 @@ import com.fairy.templateapp.recyclerviewmodels.HeaderUIModel
 import com.fairy.templateapp.recyclerviewmodels.ListSimpleUIModel
 import com.fairy.templateapp.recyclerviewmodels.SwitchUIModel
 import com.fairy.templateapp.viewholders.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class MainActivity : AppCompatActivity() {
@@ -23,22 +22,25 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider.AndroidViewModelFactory(application).create(MainViewModel::class.java)
     }
 
+    private lateinit var viewBinding: ActivityMainBinding
+
 
     @ExperimentalStdlibApi
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
         val time = System.currentTimeMillis()
         viewModel.recyclerViewData.observe(this, Observer { data ->
             println("Time: ${System.currentTimeMillis() - time}")
-            mainRecyclerView.adapter?.apply {
+            viewBinding.mainRecyclerView.adapter?.apply {
                 notifyDataSetChanged()
                 return@Observer
             }
             val adapter = BaseAdapter(data, onBindData())
-            mainRecyclerView.adapter = adapter
+            viewBinding.mainRecyclerView.adapter = adapter
         })
 
         viewModel.loadRecyclerViewData()
