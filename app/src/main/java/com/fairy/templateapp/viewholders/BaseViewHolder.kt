@@ -6,11 +6,11 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.fairy.templateapp.inflate
 
-abstract class BaseViewHolder<T> : RecyclerView.ViewHolder where T: RecyclerViewUIModel {
+abstract class BaseViewHolder : RecyclerView.ViewHolder{
 
     protected constructor(parent: ViewGroup, @LayoutRes resId: Int) : super(parent.inflate(resId))
 
     constructor(parent: ViewGroup) : super(View(parent.context))
 
-    abstract fun onBind(data: T)
+    abstract fun onBind(data: RecyclerViewUIModel)
 }

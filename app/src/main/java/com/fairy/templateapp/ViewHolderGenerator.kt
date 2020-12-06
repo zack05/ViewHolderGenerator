@@ -1,53 +1,37 @@
 package com.fairy.templateapp
 
+import android.view.View
 import android.view.ViewGroup
+import com.fairy.sugar_annotation.SugarViewHolder
 import com.fairy.templateapp.viewholders.*
-import kotlin.jvm.internal.Reflection
-import kotlin.reflect.KClass
-import kotlin.reflect.jvm.internal.impl.descriptors.runtime.structure.ReflectJavaAnnotation
 
 object ViewHolderGenerator {
 
+    private val mViewHoldersMapping: HashMap<Class<out RecyclerViewUIModel>, Class<out BaseViewHolder>> by lazy {
+        hashMapOf<Class<out RecyclerViewUIModel>, Class<out BaseViewHolder>>()
+    }
+
+    private var viewTypes: List<Class<out RecyclerViewUIModel>> = listOf()
+
     fun init() {
-        register(SimpleViewHolder::class)
-        register(HeaderViewHolder::class)
-        register(SwitchViewHolder::class)
-
-    }
-
-    private val mViewHoldersMapping: HashMap<KClass<*>, KClass<out BaseViewHolder<*>>> by lazy {
-        hashMapOf<KClass<*>, KClass<out BaseViewHolder<*>>>()
-    }
-
-    private var viewTypes: List<Any> = listOf()
-
-
-    fun register(type: KClass<*>, viewHolderClass: KClass<out BaseViewHolder<*>>) {
-        mViewHoldersMapping[type] = viewHolderClass
+        SugarGenerator.registerViewHolders(mViewHoldersMapping)
         viewTypes = mViewHoldersMapping.keys.toList()
     }
 
     fun <T> getViewType(obj: T): Int where T : RecyclerViewUIModel {
-        return viewTypes.indexOf(obj::class)
+        return viewTypes.indexOf(obj::class.java)
     }
 
-    inline fun <reified T> register(viewHolderClass: KClass<out BaseViewHolder<T>>) where T : RecyclerViewUIModel {
-        register(T::class, viewHolderClass)
+    fun createViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        if (viewType == -1) return EmptyUIModelViewHolder(parent)
+        return SugarGenerator.createViewHolder(parent, viewTypes[viewType])
+            ?: EmptyUIModelViewHolder(parent)
     }
 
-    fun createViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        if (viewType == -1) return EmptyViewHolder(parent)
-        val key = viewTypes[viewType]
-        return mViewHoldersMapping[key]?.constructors?.singleOrNull { it.parameters.size == 1 }
-            ?.call(parent) ?: EmptyViewHolder(parent)
+}
+
+@SugarViewHolder
+class EmptyUIModel : RecyclerViewUIModel {
+    override fun onBind(itemView: View) {
     }
-
-    class EmptyViewHolder(parent: ViewGroup) : BaseViewHolder<EmptyUIModel>(parent) {
-        override fun onBind(data: EmptyUIModel) {
-
-        }
-    }
-
-    class EmptyUIModel : RecyclerViewUIModel
-
 }
