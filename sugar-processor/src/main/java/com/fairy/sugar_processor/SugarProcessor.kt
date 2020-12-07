@@ -13,17 +13,10 @@ import javax.tools.Diagnostic
 
 
 class SugarProcessor : AbstractProcessor() {
-
-    private val METHOD_PREFIX = "start"
-    private val classIntent: ClassName = ClassName.get("android.content", "Intent")
-    private val classContext: ClassName = ClassName.get("android.content", "Context")
     private val classViewGroup: ClassName = ClassName.get("android.view", "ViewGroup")
-    private val classBaseViewHolder: ClassName =
-        ClassName.get("", "BaseViewHolder")
-    private val classUIModel: ClassName =
-        ClassName.get("", "RecyclerViewUIModel")
-    private val classViewHolderMapping: ClassName =
-        ClassName.get("java.util", "HashMap")
+    private val classBaseViewHolder: ClassName = ClassName.get("", "BaseViewHolder")
+    private val classUIModel: ClassName = ClassName.get("", "RecyclerViewUIModel")
+    private val classViewHolderMapping: ClassName = ClassName.get("java.util", "HashMap")
 
     private var filer: Filer? = null
     private var messager: Messager? = null
