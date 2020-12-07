@@ -7,25 +7,24 @@ import com.fairy.templateapp.viewholders.*
 
 object ViewHolderGenerator {
 
-    private val mViewHoldersMapping: HashMap<Class<out RecyclerViewUIModel>, Class<out BaseViewHolder>> by lazy {
-        hashMapOf<Class<out RecyclerViewUIModel>, Class<out BaseViewHolder>>()
+    private val mViewHoldersViewTypes: HashMap<Class<out RecyclerViewUIModel>, Int> by lazy {
+        hashMapOf<Class<out RecyclerViewUIModel>, Int>()
     }
 
     private var viewTypes: List<Class<out RecyclerViewUIModel>> = listOf()
 
     fun init() {
-        SugarGenerator.registerViewHolders(mViewHoldersMapping)
-        viewTypes = mViewHoldersMapping.keys.toList()
+        SugarGenerator.registerViewHolders(mViewHoldersViewTypes)
+        viewTypes = mViewHoldersViewTypes.keys.toList()
     }
 
     fun <T> getViewType(obj: T): Int where T : RecyclerViewUIModel {
-        return viewTypes.indexOf(obj::class.java)
+        return mViewHoldersViewTypes[obj::class.java] ?: -1
     }
 
     fun createViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         if (viewType == -1) return EmptyUIModelViewHolder(parent)
-        return SugarGenerator.createViewHolder(parent, viewTypes[viewType])
-            ?: EmptyUIModelViewHolder(parent)
+        return SugarGenerator.createViewHolder(parent, viewType) ?: EmptyUIModelViewHolder(parent)
     }
 
 }

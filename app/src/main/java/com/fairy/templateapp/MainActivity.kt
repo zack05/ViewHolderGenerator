@@ -13,6 +13,7 @@ import com.fairy.templateapp.models.Vehicle
 import com.fairy.templateapp.recyclerviewmodels.HeaderUIModel
 import com.fairy.templateapp.recyclerviewmodels.ListSimpleUIModel
 import com.fairy.templateapp.recyclerviewmodels.SwitchUIModel
+import com.fairy.templateapp.recyclerviewmodels.TestUIModel
 import com.fairy.templateapp.viewholders.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

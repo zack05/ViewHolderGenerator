@@ -119,7 +119,7 @@ class SugarProcessor : AbstractProcessor() {
          */
 
         val creatorParameter1 = ParameterSpec.builder(classViewGroup, "parent").build()
-        val creatorParameter2 = ParameterSpec.builder(ClassName.get("", "Class"), "clazz").build()
+        val creatorParameter2 = ParameterSpec.builder(ClassName.INT, "viewType").build()
 
         val creatorMethodBuilder = MethodSpec
             .methodBuilder("createViewHolder")
@@ -128,27 +128,17 @@ class SugarProcessor : AbstractProcessor() {
             .addParameters(listOf(creatorParameter1, creatorParameter2))
 
 
-
+        var viewType = 1
         for ((viewHolderName, packageName) in activitiesWithPackage!!) {
             val viewHolderClass = ClassName.get(packageName, viewHolderName)
-//            val intentMethod = MethodSpec
-//                .methodBuilder("create$viewHolderName")
-//                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-//                .returns(classBaseViewHolder)
-//                .addParameter(classViewGroup, "parent")
-//                .addStatement("return new \$T(\$L)", viewHolderClass, "parent")
-//                .build()
-//            navigatorClass.addMethod(intentMethod)
 
-            mappingMethodBuilder.addStatement(
-                "viewHoldersMapping.put(\$T.class,\$L.class)",
-                viewHolderClass,
-                "${viewHolderClass.simpleName()}ViewHolder"
-            )
+            mappingMethodBuilder
+                .addStatement("viewHoldersMapping.put(\$T.class,$viewType)", viewHolderClass)
 
             creatorMethodBuilder.addStatement(
-                "if (clazz.equals(${viewHolderClass}.class)){\nreturn new ${viewHolderClass.simpleName()}ViewHolder(parent);\n}"
+                "if (viewType == $viewType) return new ${viewHolderClass.simpleName()}ViewHolder(parent)"
             )
+            viewType += 1
         }
         creatorMethodBuilder.addStatement("return null")
         navigatorClass.addMethod(mappingMethodBuilder.build())
@@ -158,11 +148,13 @@ class SugarProcessor : AbstractProcessor() {
          */
 
         try {
-            JavaFile.builder("com.fairy.templateapp.viewholders",
-                navigatorClass.build()).build()
+            JavaFile.builder(
+                "com.fairy.templateapp.viewholders",
+                navigatorClass.build()
+            ).build()
                 .writeTo(filer)
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
 
         }
 
