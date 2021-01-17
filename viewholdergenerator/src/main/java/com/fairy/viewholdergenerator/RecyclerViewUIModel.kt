@@ -1,4 +1,4 @@
-package com.fairy.templateapp.viewholders
+package com.fairy.viewholdergenerator
 
 import android.view.View
 
@@ -10,10 +10,4 @@ interface RecyclerViewUIModel {
 
 
     fun onBind(itemView: View)
-
-//    /**
-//     * callback invoked when clicked
-//     */
-//    val clickable: Boolean
-//        get() = false
 }

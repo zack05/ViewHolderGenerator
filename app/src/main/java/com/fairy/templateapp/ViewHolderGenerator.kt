@@ -1,9 +1,10 @@
 package com.fairy.templateapp
 
-import android.view.View
 import android.view.ViewGroup
-import com.fairy.sugar_annotation.SugarViewHolder
-import com.fairy.templateapp.viewholders.*
+import com.fairy.viewholdergenerator.BaseViewHolder
+import com.fairy.viewholdergenerator.EmptyUIModelViewHolder
+import com.fairy.viewholdergenerator.RecyclerViewUIModel
+import com.fairy.viewholdergenerator.viewholders.SugarGenerator
 
 object ViewHolderGenerator {
 
@@ -11,11 +12,8 @@ object ViewHolderGenerator {
         hashMapOf<Class<out RecyclerViewUIModel>, Int>()
     }
 
-    private var viewTypes: List<Class<out RecyclerViewUIModel>> = listOf()
-
     fun init() {
         SugarGenerator.registerViewHolders(mViewHoldersViewTypes)
-        viewTypes = mViewHoldersViewTypes.keys.toList()
     }
 
     fun <T> getViewType(obj: T): Int where T : RecyclerViewUIModel {
@@ -27,10 +25,4 @@ object ViewHolderGenerator {
         return SugarGenerator.createViewHolder(parent, viewType) ?: EmptyUIModelViewHolder(parent)
     }
 
-}
-
-@SugarViewHolder
-class EmptyUIModel : RecyclerViewUIModel {
-    override fun onBind(itemView: View) {
-    }
 }

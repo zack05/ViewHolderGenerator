@@ -2,8 +2,8 @@ package com.fairy.templateapp
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.fairy.templateapp.viewholders.BaseViewHolder
-import com.fairy.templateapp.viewholders.RecyclerViewUIModel
+import com.fairy.viewholdergenerator.BaseViewHolder
+import com.fairy.viewholdergenerator.RecyclerViewUIModel
 
 class BaseAdapter(
     private val itemList: List<Any>,

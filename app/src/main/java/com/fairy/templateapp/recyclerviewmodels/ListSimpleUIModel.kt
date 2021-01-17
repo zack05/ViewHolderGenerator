@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import com.fairy.sugar_annotation.SugarViewHolder
 import com.fairy.templateapp.R
 import com.fairy.templateapp.databinding.SimpleViewHolderBinding
-import com.fairy.templateapp.viewholders.RecyclerViewUIModel
+import com.fairy.viewholdergenerator.RecyclerViewUIModel
 
 @SugarViewHolder(layoutRes = R.layout.simple_view_holder)
 data class ListSimpleUIModel(

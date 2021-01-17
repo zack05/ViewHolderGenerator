@@ -2,6 +2,9 @@ package com.fairy.sugar_processor
 
 import com.fairy.sugar_annotation.SugarViewHolder
 import com.squareup.javapoet.*
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import java.lang.Exception
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
@@ -14,21 +17,22 @@ import javax.tools.Diagnostic
 
 class SugarProcessor : AbstractProcessor() {
     private val classViewGroup: ClassName = ClassName.get("android.view", "ViewGroup")
-    private val classBaseViewHolder: ClassName = ClassName.get("", "BaseViewHolder")
-    private val classUIModel: ClassName = ClassName.get("", "RecyclerViewUIModel")
+    private val classBaseViewHolder: ClassName =
+        ClassName.get("com.fairy.viewholdergenerator", "BaseViewHolder")
+    private val classUIModel: ClassName = ClassName.get("com.fairy.viewholdergenerator", "RecyclerViewUIModel")
     private val classViewHolderMapping: ClassName = ClassName.get("java.util", "HashMap")
 
     private var filer: Filer? = null
     private var messager: Messager? = null
     private var elements: Elements? = null
-    private var activitiesWithPackage: HashMap<String, String>? = null
+    private var annotatedClasses: HashMap<String, String>? = null
 
     override fun init(processingEnvironment: ProcessingEnvironment?) {
         super.init(processingEnvironment)
         filer = processingEnvironment?.filer
         messager = processingEnvironment?.messager
         elements = processingEnvironment?.elementUtils
-        activitiesWithPackage = HashMap()
+        annotatedClasses = HashMap()
     }
 
     override fun process(set: MutableSet<out TypeElement>?, roundEnv: RoundEnvironment?): Boolean {
@@ -43,7 +47,7 @@ class SugarProcessor : AbstractProcessor() {
             }
             element as TypeElement
             val qualifiedName = elements?.getPackageOf(element)?.qualifiedName.toString()
-            activitiesWithPackage?.put(element.simpleName.toString(), qualifiedName)
+            this.annotatedClasses?.put(element.simpleName.toString(), qualifiedName)
 
 
             /**
@@ -77,7 +81,7 @@ class SugarProcessor : AbstractProcessor() {
             /**
              * 3- Write generated class to a file
              */
-            JavaFile.builder("com.fairy.templateapp.viewholders", viewHolderClass.build()).build()
+            JavaFile.builder("com.fairy.viewholdergenerator.viewholders", viewHolderClass.build()).build()
                 .writeTo(filer)
 
         }
@@ -89,27 +93,10 @@ class SugarProcessor : AbstractProcessor() {
             .classBuilder("SugarGenerator")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
 
-        /*
-
-    public static void registerViewHolders(HashMap<Class<? extends RecyclerViewUIModel>, Class<? extends BaseViewHolder>> viewHoldersMapping) {
-        viewHoldersMapping.put(ViewHolderGenerator.EmptyUIModel.class, EmptyUIModelViewHolder.class);
-    }
-         */
-
         val mappingMethodBuilder = MethodSpec
             .methodBuilder("registerViewHolders")
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addParameter(classViewHolderMapping, "viewHoldersMapping")
-
-
-        /*
-            public static BaseViewHolder createViewHolder(ViewGroup parent, Class clazz) {
-        if (clazz.equals(ListSimpleUIModel.class)) {
-            return new ListSimpleUIModelViewHolder(parent);
-        }
-        return null;
-    }
-         */
 
         val creatorParameter1 = ParameterSpec.builder(classViewGroup, "parent").build()
         val creatorParameter2 = ParameterSpec.builder(ClassName.INT, "viewType").build()
@@ -122,7 +109,7 @@ class SugarProcessor : AbstractProcessor() {
 
 
         var viewType = 1
-        for ((viewHolderName, packageName) in activitiesWithPackage!!) {
+        for ((viewHolderName, packageName) in this.annotatedClasses!!) {
             val viewHolderClass = ClassName.get(packageName, viewHolderName)
 
             mappingMethodBuilder
@@ -142,7 +129,7 @@ class SugarProcessor : AbstractProcessor() {
 
         try {
             JavaFile.builder(
-                "com.fairy.templateapp.viewholders",
+                "com.fairy.viewholdergenerator.viewholders",
                 navigatorClass.build()
             ).build()
                 .writeTo(filer)

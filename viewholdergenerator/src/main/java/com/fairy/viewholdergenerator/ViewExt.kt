@@ -1,4 +1,4 @@
-package com.fairy.templateapp
+package com.fairy.viewholdergenerator
 
 import android.view.LayoutInflater
 import android.view.View

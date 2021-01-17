@@ -10,11 +10,12 @@ import com.fairy.templateapp.models.Animal
 import com.fairy.templateapp.models.Device
 import com.fairy.templateapp.models.Option
 import com.fairy.templateapp.models.Vehicle
+import com.fairy.templateapp.recyclerviewmodels.CarouselUIModel
 import com.fairy.templateapp.recyclerviewmodels.HeaderUIModel
 import com.fairy.templateapp.recyclerviewmodels.ListSimpleUIModel
 import com.fairy.templateapp.recyclerviewmodels.SwitchUIModel
-import com.fairy.templateapp.recyclerviewmodels.TestUIModel
-import com.fairy.templateapp.viewholders.*
+import com.fairy.viewholdergenerator.EmptyUIModel
+import com.fairy.viewholdergenerator.RecyclerViewUIModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class MainActivity : AppCompatActivity() {
@@ -75,6 +76,9 @@ class MainActivity : AppCompatActivity() {
                 SwitchUIModel(data.title, data.option, data.enabled) { isChecked ->
                     data.enabled = isChecked
                 }
+            }
+            is List<*> -> {
+                CarouselUIModel(data as List<String>)
             }
             else -> {
                 EmptyUIModel()

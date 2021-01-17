@@ -1,5 +1,5 @@
 include ':sugar-processor'
 include ':sugar-annotation'
-include ':piri-module'
+include ':viewholdergenerator'
 include ':app'
 rootProject.name = "TemplateApp"

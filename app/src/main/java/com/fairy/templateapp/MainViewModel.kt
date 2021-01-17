@@ -79,7 +79,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     @ExperimentalCoroutinesApi
     fun loadRecyclerViewData() {
         viewModelScope.launch {
-            recyclerViewData.value = createList()
+            val createList = createList()
+            val testList = arrayListOf<Any>()
+            val carouselList = arrayListOf<String>()
+            for (i in 0..1000){
+                carouselList.add("Test carousel")
+                testList.addAll(createList)
+            }
+            testList.add(0, carouselList)
+            recyclerViewData.value = testList
         }
     }
 

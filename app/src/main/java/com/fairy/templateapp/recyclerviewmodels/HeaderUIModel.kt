@@ -4,7 +4,7 @@ import android.view.View
 import com.fairy.sugar_annotation.SugarViewHolder
 import com.fairy.templateapp.R
 import com.fairy.templateapp.databinding.ViewHolderHeaderBinding
-import com.fairy.templateapp.viewholders.RecyclerViewUIModel
+import com.fairy.viewholdergenerator.RecyclerViewUIModel
 
 @SugarViewHolder(layoutRes = R.layout.view_holder_header)
 data class HeaderUIModel(val header: String?) : RecyclerViewUIModel {

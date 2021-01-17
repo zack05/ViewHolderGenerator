@@ -9,6 +9,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'com.squareup:javapoet:1.10.0'
+    implementation 'com.squareup:kotlinpoet:1.6.0'
     implementation project(':sugar-annotation')
 }
 
