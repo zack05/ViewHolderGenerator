@@ -2,13 +2,10 @@ package com.fairy.sugar_processor
 
 import com.fairy.sugar_annotation.SugarViewHolder
 import com.squareup.javapoet.*
-import com.squareup.javapoet.ClassName
-import com.squareup.javapoet.ParameterSpec
-import com.squareup.javapoet.TypeSpec
-import com.squareup.kotlinpoet.*
-import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
+import java.lang.Exception
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
@@ -16,15 +13,13 @@ import javax.lang.model.element.Modifier
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
 import javax.tools.Diagnostic
-import kotlin.reflect.KClass
 
 
 class SugarProcessor : AbstractProcessor() {
     private val classViewGroup: ClassName = ClassName.get("android.view", "ViewGroup")
     private val classBaseViewHolder: ClassName =
         ClassName.get("com.fairy.viewholdergenerator", "BaseViewHolder")
-    private val classUIModel: ClassName =
-        ClassName.get("com.fairy.viewholdergenerator", "RecyclerViewUIModel")
+    private val classUIModel: ClassName = ClassName.get("com.fairy.viewholdergenerator", "RecyclerViewUIModel")
     private val classViewHolderMapping: ClassName = ClassName.get("java.util", "HashMap")
 
     private var filer: Filer? = null
@@ -38,75 +33,6 @@ class SugarProcessor : AbstractProcessor() {
         messager = processingEnvironment?.messager
         elements = processingEnvironment?.elementUtils
         annotatedClasses = HashMap()
-
-        val testObject = com.squareup.kotlinpoet.TypeSpec.objectBuilder("ViewHolderGenerator")
-
-        /*
-
-    fun createViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        if (viewType == -1) return EmptyUIModelViewHolder(parent)
-        return SugarGenerator.createViewHolder(parent, viewType) ?: EmptyUIModelViewHolder(parent)
-    }
-         */
-
-        val mViewHoldersViewTypes = PropertySpec.builder(
-            "mViewHoldersViewTypes",
-            kotlin.collections.HashMap::class.asClassName().parameterizedBy(
-                Class::class.asClassName()
-                    .parameterizedBy(TypeVariableName("out RecyclerViewUIModel")),
-                Int::class.asTypeName()
-            ),
-            KModifier.PRIVATE
-        ).delegate(
-            CodeBlock.builder().beginControlFlow("lazy")
-                .add("hashMapOf<Class<out RecyclerViewUIModel>, Int>()")
-                .endControlFlow()
-                .build()
-        ).build()
-
-        testObject.addProperty(mViewHoldersViewTypes)
-        testObject.addFunction(
-            FunSpec.builder("init")
-                .addCode("SugarGenerator.registerViewHolders(mViewHoldersViewTypes)").build()
-        )
-        testObject.addFunction(
-            FunSpec.builder("getViewType")
-                .addParameter(
-                    com.squareup.kotlinpoet.ParameterSpec(
-                        "obj",
-                        KClass::class.asClassName()
-                            .parameterizedBy(TypeVariableName("out RecyclerViewUIModel"))
-                    )
-                )
-                .addCode("return mViewHoldersViewTypes[obj.java] ?: -1")
-                .build()
-        )
-
-        testObject.addFunction(
-            FunSpec.builder("createViewHolder")
-                .addParameter(
-                    com.squareup.kotlinpoet.ParameterSpec(
-                        "parent",
-                        com.squareup.kotlinpoet.ClassName.bestGuess("android.view.ViewGroup")
-                    )
-                )
-                .addParameter(
-                    com.squareup.kotlinpoet.ParameterSpec(
-                        "viewType",
-                        Int::class.asClassName()
-                    )
-                ).returns(com.squareup.kotlinpoet.ClassName.bestGuess("com.fairy.viewholdergenerator.BaseViewHolder")).addCode(
-                    """
-        if (viewType == -1) return EmptyUIModelViewHolder(parent)
-        return SugarGenerator.createViewHolder(parent, viewType) ?: EmptyUIModelViewHolder(parent)
-                """.trimIndent()
-                ).build()
-        )
-        FileSpec
-            .builder("com.fairy.viewholdergenerator", "ViewHolderGenerator")
-            .addType(testObject.build())
-            .build()
-            .writeTo(filer!!)
     }
 
     override fun process(set: MutableSet<out TypeElement>?, roundEnv: RoundEnvironment?): Boolean {
@@ -155,8 +81,7 @@ class SugarProcessor : AbstractProcessor() {
             /**
              * 3- Write generated class to a file
              */
-            JavaFile.builder("com.fairy.viewholdergenerator", viewHolderClass.build())
-                .build()
+            JavaFile.builder("com.fairy.viewholdergenerator.viewholders", viewHolderClass.build()).build()
                 .writeTo(filer)
 
         }
@@ -204,7 +129,7 @@ class SugarProcessor : AbstractProcessor() {
 
         try {
             JavaFile.builder(
-                "com.fairy.viewholdergenerator",
+                "com.fairy.viewholdergenerator.viewholders",
                 navigatorClass.build()
             ).build()
                 .writeTo(filer)
