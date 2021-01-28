@@ -14,7 +14,6 @@ import com.fairy.templateapp.recyclerviewmodels.CarouselUIModel
 import com.fairy.templateapp.recyclerviewmodels.HeaderUIModel
 import com.fairy.templateapp.recyclerviewmodels.ListSimpleUIModel
 import com.fairy.templateapp.recyclerviewmodels.SwitchUIModel
-import com.fairy.viewholdergenerator.BaseAdapter
 import com.fairy.viewholdergenerator.EmptyUIModel
 import com.fairy.viewholdergenerator.RecyclerViewUIModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
