@@ -18,7 +18,7 @@ import com.fairy.viewholdergenerator.BaseAdapter
 import com.fairy.viewholdergenerator.EmptyUIModel
 import com.fairy.viewholdergenerator.RecyclerViewUIModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-
+//
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by lazy {
