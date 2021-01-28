@@ -1,9 +1,7 @@
-package com.fairy.templateapp
+package com.fairy.viewholdergenerator
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.fairy.viewholdergenerator.BaseViewHolder
-import com.fairy.viewholdergenerator.RecyclerViewUIModel
 
 class BaseAdapter(
     private val itemList: List<Any>,
@@ -24,7 +22,7 @@ class BaseAdapter(
     override fun getItemViewType(position: Int): Int {
         val uiModel = uiModelList[position] ?:
         bindCallback.invoke(itemList[position]).also { uiModelList[position] = it }
-        return ViewHolderGenerator.getViewType(uiModel)
+        return ViewHolderGenerator.getViewType(uiModel::class)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {

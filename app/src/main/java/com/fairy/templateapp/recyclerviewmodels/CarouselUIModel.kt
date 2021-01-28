@@ -2,7 +2,7 @@ package com.fairy.templateapp.recyclerviewmodels
 
 import android.view.View
 import com.fairy.sugar_annotation.SugarViewHolder
-import com.fairy.templateapp.BaseAdapter
+import com.fairy.viewholdergenerator.BaseAdapter
 import com.fairy.templateapp.R
 import com.fairy.templateapp.databinding.ViewHolderCarouselBinding
 import com.fairy.viewholdergenerator.RecyclerViewUIModel
