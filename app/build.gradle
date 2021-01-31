@@ -68,8 +68,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.0"
 
-    implementation project(':sugar-annotation')
-    kapt project(':sugar-processor')
+    implementation 'com.github.zack05:SugarAnnotation:v0.0.4'
+    kapt 'com.github.zack05:SugarProcessor:v0.0.5'
     implementation project(':viewholdergenerator')
 
 }
