@@ -12,7 +12,7 @@ class BaseAdapter(
         arrayOfNulls<RecyclerViewUIModel>(itemList.size).toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        return com.fairy.viewholdergenerator.ViewHolderGenerator.createViewHolder(parent, viewType)
+        return ViewHolderGenerator.createViewHolder(parent, viewType)
     }
 
     override fun getItemCount(): Int {
@@ -22,7 +22,7 @@ class BaseAdapter(
     override fun getItemViewType(position: Int): Int {
         val uiModel = uiModelList[position] ?:
         bindCallback.invoke(itemList[position]).also { uiModelList[position] = it }
-        return com.fairy.viewholdergenerator.ViewHolderGenerator.getViewType(uiModel::class)
+        return ViewHolderGenerator.getViewType(uiModel::class)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {

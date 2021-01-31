@@ -21,6 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            java {
+                exclude 'com/fairy/viewholdergenerator/ViewHolderGenerator.kt'
+            }
+        }
+    }
 }
 
 dependencies {
