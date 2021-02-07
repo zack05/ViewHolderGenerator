@@ -14,7 +14,7 @@ open class BaseAdapter(
         }
     }
 
-    protected fun getViewHolderGenerator(): ViewHolderGenerator {
+    protected open fun getViewHolderGenerator(): ViewHolderGenerator {
         return viewHolderGenerator
     }
 
