@@ -3,7 +3,7 @@ package com.fairy.viewholdergenerator
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class BaseAdapter(
+open class BaseAdapter(
     private val itemList: List<Any>,
     private val bindCallback: (data: Any) -> RecyclerViewUIModel
 ) : RecyclerView.Adapter<BaseViewHolder>() {
