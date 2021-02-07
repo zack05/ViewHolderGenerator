@@ -3,14 +3,10 @@ package com.fairy.viewholdergenerator
 import android.view.ViewGroup
 import kotlin.reflect.KClass
 
-object ViewHolderGenerator {
+class ViewHolderGenerator {
 
     private val mViewHoldersViewTypes: HashMap<Class<out RecyclerViewUIModel>, Int> by lazy {
         hashMapOf<Class<out RecyclerViewUIModel>, Int>()
-    }
-
-    fun init() {
-        //TODO aloup
     }
 
     fun getViewType(obj: KClass<out RecyclerViewUIModel>): Int {

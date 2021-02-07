@@ -69,7 +69,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.0"
 
     implementation 'com.github.zack05:SugarAnnotation:v0.0.4'
-    kapt 'com.github.zack05:SugarProcessor:v0.0.5'
+    kapt 'com.github.zack05:SugarProcessor:v0.0.7'
     implementation project(':viewholdergenerator')
 
 }
